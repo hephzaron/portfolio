@@ -1,0 +1,22 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "An app to create a personal portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hephzaron/portfolio.git"
+  },
+  "author": "Engr. Daramola Oluwatobi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hephzaron/portfolio/issues"
+  },
+  "homepage": "https://github.com/hephzaron/portfolio#readme",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}
