@@ -1,4 +1,5 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
+const BASE_URL = import.meta.env.BASE_URL;
 
 const projects = [
   {
@@ -32,6 +33,11 @@ const projects = [
   },
 ];
 
+function stripLeadingSlash(path) {
+  return path.replace(/^\/+/, "");
+}
+
+
 export const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 px-4 relative">
@@ -54,7 +60,7 @@ export const ProjectsSection = () => {
             >
               <div className="h-48 overflow-hidden">
                 <img
-                  src={`${project.image}`}
+                  src={`${stripLeadingSlash(BASE_URL+project.image)}`}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
