@@ -35,9 +35,10 @@ const projects = [
   },
 ];
 
-function stripLeadingSlash(path) {
-  return path.replace(/^\/+/, "");
+function joinBaseUrl(base, path) {
+  return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
 }
+
 
 
 export const ProjectsSection = () => {
@@ -62,7 +63,7 @@ export const ProjectsSection = () => {
             >
               <div className="h-48 overflow-hidden">
                 <img
-                  src={`${project.image}`}
+                  src={`${joinBaseUrl(BASE_URL, project.image)}`}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
