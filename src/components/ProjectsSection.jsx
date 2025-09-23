@@ -1,8 +1,6 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 const BASE_URL = import.meta.env.BASE_URL;
 
-console.log("Base URL:", BASE_URL); 
-
 const projects = [
   {
     id: 1,
