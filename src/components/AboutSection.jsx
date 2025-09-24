@@ -1,4 +1,4 @@
-import { Briefcase, Code, User } from "lucide-react";
+import { UtilityPole, CircuitBoard, BrainCircuit } from "lucide-react";
 
 export const AboutSection = () => {
   return (
@@ -12,20 +12,19 @@ export const AboutSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold">
-              Passionate Web Developer & Tech Creator
+              A power and embedded systems engineer with expertise in machine learning  algorithms
             </h3>
 
             <p className="text-muted-foreground">
-              With over 5 years of experience in web development, I specialize
-              in creating responsive, accessible, and performant web
-              applications using modern technologies.
+              I have over eight years experience in the power sector and self-learning, I have garnered skills in 
+              smart power electronics, FPGAs, machine learning, and energy-aware system design, 
+              applying research and industry experience to develop reliable and efficient solutions.
             </p>
 
             <p className="text-muted-foreground">
-              I'm passionate about creating elegant solutions to complex
-              problems, and I'm constantly learning new technologies and
-              techniques to stay at the forefront of the ever-evolving web
-              landscape.
+              Beyond industry, I am deeply engaged in emerging technologies such as IoT, Embedded Systems, and Machine Learning. 
+              As a member of COREN, NSE, and IEEE, I remain committed to continuous learning, research, and professional excellence. 
+              My vision is to build sustainable, intelligent, and energy-aware systems that shape the future of power and embedded technologies.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
@@ -47,13 +46,13 @@ export const AboutSection = () => {
             <div className="gradient-border p-6 card-hover">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <Code className="h-6 w-6 text-primary" />
+                  <UtilityPole className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-semibold text-lg"> Web Development</h4>
+                  <h4 className="font-semibold text-lg"> Power Systems</h4>
                   <p className="text-muted-foreground">
-                    Creating responsive websites and web applications with
-                    modern frameworks.
+                    Design and support labs for power system analysis, simulation 
+                    (e.g., using MATLAB, PSCAD, ETAP), and hardware experiments..
                   </p>
                 </div>
               </div>
@@ -61,13 +60,12 @@ export const AboutSection = () => {
             <div className="gradient-border p-6 card-hover">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <User className="h-6 w-6 text-primary" />
+                  <CircuitBoard className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-semibold text-lg">UI/UX Design</h4>
+                  <h4 className="font-semibold text-lg">Embedded Systems</h4>
                   <p className="text-muted-foreground">
-                    Designing intuitive user interfaces and seamless user
-                    experiences.
+                    Firmware design in C/C++, hardware design & prototyping and IoT solutions.
                   </p>
                 </div>
               </div>
@@ -75,14 +73,14 @@ export const AboutSection = () => {
             <div className="gradient-border p-6 card-hover">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <Briefcase className="h-6 w-6 text-primary" />
+                  <BrainCircuit className="h-6 w-6 text-primary" />
                 </div>
 
                 <div className="text-left">
-                  <h4 className="font-semibold text-lg">Project Management</h4>
+                  <h4 className="font-semibold text-lg">Machine Learning</h4>
                   <p className="text-muted-foreground">
-                    Leading projects from conception to completion with agile
-                    methodologies.
+                    Implements On-device ML inference (e.g., TensorFlow Lite, TinyML) for real-time decision-making,
+                    edge ML model optimization, and deployment on resource-constrained devices.
                   </p>
                 </div>
               </div>
