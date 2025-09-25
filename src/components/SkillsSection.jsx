@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectSkill, resetSkill, toggleSkill } from '../store/skillSlice';
 import { cn } from "@/lib/utils";
 import {StarRating} from "./StarRating";
 
@@ -39,6 +41,9 @@ const categories = [
 ];
 
 export const SkillsSection = () => {
+  const count = useSelector(state => state.skill.skillTag);
+  const dispatch = useDispatch()
+
   const [activeCategory, setActiveCategory] = useState("Programming Languages");
 
   const filteredSkills = skills.filter((skill) => skill.category === activeCategory);
@@ -54,7 +59,10 @@ export const SkillsSection = () => {
           {categories.map((category, key) => (
             <button
               key={key}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                setActiveCategory(category);
+                dispatch(resetSkill()); // Reset selected skill when category changes
+              }}
               className={cn(
                 "px-5 py-2 rounded-full transition-colors duration-300 capitalize",
                 activeCategory === category
@@ -71,8 +79,8 @@ export const SkillsSection = () => {
           {filteredSkills.map((skill, key) => (
             <div
               key={key}
-              className="bg-card p-6 rounded-lg shadow-xs card-hover"
-            >
+              onClick={() => dispatch(toggleSkill(skill.name))} // Select skill on click
+              className="bg-card p-6 rounded-lg shadow-xs card-hover">
               <div className="text-left mb-4">
                 <h3 className="font-semibold text-lg"> {skill.name}</h3>
               </div>
