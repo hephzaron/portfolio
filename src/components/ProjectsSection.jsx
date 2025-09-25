@@ -37,6 +37,17 @@ const projects = [
     demoUrl: "#",
     githubUrl: "#",
   },
+  
+  {
+    id: 4,
+    title: "E-commerce Platform",
+    description:
+      "Full-featured e-commerce platform with user authentication and payment processing.",
+    image: "/projects/project3.png",
+    tags: ["Vivado", "Pandas", "TensorFlow Lite"],
+    demoUrl: "#",
+    githubUrl: "#",
+  },
 ];
 
 /**
