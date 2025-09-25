@@ -92,7 +92,7 @@ class SkillsSectionBase extends Component {
    */
   handleSkillClick = (skillName) => {
     this.props.toggleSkill(skillName);
-    if (!this.props.skillTag) {
+    if (this.props.skillTag !== skillName) {
       scrollToSection("projects");
     }
   };
