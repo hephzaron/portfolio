@@ -31,6 +31,7 @@ const skills = [
   // Other Skills
   { name: "Digital Signal Processing (DSP)", level: 68, category: "Other Skills" },
   { name: "Mathematical Optimization Technique", level: 50, category: "Other Skills" },
+  { name: "Web application development", level: 50, category: "Other Skills" },
 ];
 
 const categories = [
