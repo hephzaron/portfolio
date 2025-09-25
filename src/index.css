@@ -12,6 +12,7 @@
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-pulse-strong: pulse-strong 2.5s ease-in-out infinite;
   --animate-fade-in: fade-in 0.7s ease-out forwards;
   --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
   --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
@@ -35,6 +36,17 @@
     }
     50% {
       opacity: 0.8;
+    }
+  }
+  @keyframes pulse-strong {
+    0%, 
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;      
+      transform: scale(1.1); 
     }
   }
   @keyframes fade-in {
@@ -126,6 +138,11 @@
   @apply relative;
   text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
 }
+
+@utility star-glow {
+  filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.8));
+}
+
 
 @utility card-hover {
   @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
