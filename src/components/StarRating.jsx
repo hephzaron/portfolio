@@ -1,64 +1,104 @@
+import React, { Component } from "react";
 import { Star, StarHalf } from "lucide-react";
 
-function StarRating({ rating = 2.5, totalStars = 5 }) {
-  return (
-    <>
-      <style>
-        {`
-          .star-app {
-            font-family: sans-serif;
-          }
+/**
+ * StarRating Component (Class-based)
+ * ---------------------------------------
+ * Displays a star-based rating system with:
+ * - Empty background stars
+ * - Filled stars in the foreground (with optional half-star)
+ *
+ * Props:
+ * - rating (number): Current rating (default: 2.5)
+ * - totalStars (number): Total number of stars to display (default: 5)
+ *
+ * Features:
+ * - Supports fractional ratings (renders half star)
+ * - Background stars appear gray (border color)
+ * - Foreground stars appear glowing yellow with animation
+ */
+class StarRatingBase extends Component {
+  // Default props (fallback values)
+  static defaultProps = {
+    rating: 2.5,
+    totalStars: 5,
+  };
 
-          .star-rating {
-            position: relative;
-            display: inline-block;
-          }
+  /**
+   * Render Method
+   * - Renders background stars
+   * - Renders filled stars according to rating
+   * - Adds half-star if rating is fractional
+   */
+  render() {
+    const { rating, totalStars } = this.props;
 
-          .stars {
-            display: flex;
-            gap: 4px;
-          }
+    return (
+      <>
+        {/* Inline styles to control layout and positioning */}
+        <style>
+          {`
+            .star-app {
+              font-family: sans-serif;
+            }
 
-          .rating {
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
-        `}
-      </style>
+            .star-rating {
+              position: relative;
+              display: inline-block;
+            }
 
-      <div className="star-app">
-        <div className="star-rating">
-          {/* Background (empty stars) */}
-          <div className="stars">
-            {Array.from({ length: totalStars }, (_, i) => (
-              <Star
-                key={i}
-                className="w-6 h-6 text-border"
-                fill="currentColor" 
-                strokeWidth={0} />
-            ))}
-          </div>
+            .stars {
+              display: flex;
+              gap: 4px;
+            }
 
-          {/* Foreground (yellow stars with half if needed) */}
-          <div className="stars rating">
-            {Array.from({ length: Math.floor(rating) }, (_, i) => (
-              <Star 
-                key={i}
-                className="w-6 h-6 text-primary text-glow animate-pulse-strong" 
-                fill="currentColor" 
-                strokeWidth={0} />
-            ))}
-            {(rating % 1 !== 0) && 
+            .rating {
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+          `}
+        </style>
+
+        <div className="star-app">
+          <div className="star-rating">
+            {/* Background (empty stars in gray) */}
+            <div className="stars">
+              {Array.from({ length: totalStars }, (_, i) => (
+                <Star
+                  key={i}
+                  className="w-6 h-6 text-border"
+                  fill="currentColor"
+                  strokeWidth={0}
+                />
+              ))}
+            </div>
+
+            {/* Foreground (yellow glowing stars) */}
+            <div className="stars rating">
+              {Array.from({ length: Math.floor(rating) }, (_, i) => (
+                <Star
+                  key={i}
+                  className="w-6 h-6 text-primary text-glow animate-pulse-strong"
+                  fill="currentColor"
+                  strokeWidth={0}
+                />
+              ))}
+
+              {/* Render half star if rating is fractional */}
+              {rating % 1 !== 0 && (
                 <StarHalf
-                    className="w-6 h-6 text-primary text-glow animate-pulse-strong" 
-                    fill="currentColor" 
-                    strokeWidth={0} />}
+                  className="w-6 h-6 text-primary text-glow animate-pulse-strong"
+                  fill="currentColor"
+                  strokeWidth={0}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
 
-export { StarRating };
+export const StarRating = StarRatingBase;
