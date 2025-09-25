@@ -1,5 +1,5 @@
 // NotFound.js
-import React, { Component } from "react";
+import { Component } from "react";
 import { Link } from "react-router-dom";
 
 /**
@@ -22,7 +22,7 @@ export class NotFound extends Component {
     return (
       <div style={{ textAlign: "center", padding: "50px" }}>
         <h1>Oops! Page not found.</h1>
-        <p>The page you're looking for does not exist.</p>
+        <p>The page you&apos;re looking for does not exist.</p>
         <Link to="/" style={{ color: "#007BFF", textDecoration: "underline" }}>
           Go to Home
         </Link>

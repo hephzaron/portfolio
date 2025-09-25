@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { ArrowDown } from "lucide-react";
 
 /**
@@ -15,7 +15,7 @@ class HeroSectionBase extends Component {
   renderHeadline() {
     return (
       <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-        <span className="opacity-0 animate-fade-in"> Hi, I'm</span>
+        <span className="opacity-0 animate-fade-in"> Hi, I&apos;m</span>
         <span className="text-primary opacity-0 animate-fade-in-delay-1">
           {" "}
           Tobi

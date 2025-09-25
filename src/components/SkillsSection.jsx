@@ -4,6 +4,7 @@ import { resetSkill, toggleSkill } from "@/store/skillSlice";
 import { scrollToSection } from "@/lib/scrollToSection";
 import { cn } from "@/lib/utils";
 import { StarRating } from "./StarRating";
+import PropTypes from "prop-types";
 
 // ================== DATA ==================
 /**
@@ -171,6 +172,14 @@ class SkillsSectionBase extends Component {
     );
   }
 }
+
+// PropTypes must be declared on the base class
+SkillsSectionBase.propTypes = {
+  skillTag: PropTypes.string,
+  resetSkill: PropTypes.func.isRequired,
+  toggleSkill: PropTypes.func.isRequired,
+};
+
 
 // ================== REDUX CONNECTION ==================
 /**

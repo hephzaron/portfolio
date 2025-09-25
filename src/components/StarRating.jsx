@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Star, StarHalf } from "lucide-react";
+import PropTypes from "prop-types";
 
 /**
  * StarRating Component (Class-based)
@@ -22,6 +23,12 @@ class StarRatingBase extends Component {
   static defaultProps = {
     rating: 2.5,
     totalStars: 5,
+  };
+
+  // Prop types for validation
+  static propTypes = {
+    rating: PropTypes.number.isRequired,     // number like 3, 4.5 etc.
+    totalStars: PropTypes.number.isRequired, // usually 5 or 10
   };
 
   /**
@@ -100,5 +107,6 @@ class StarRatingBase extends Component {
     );
   }
 }
+
 
 export const StarRating = StarRatingBase;

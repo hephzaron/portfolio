@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -172,7 +172,7 @@ class NavbarBase extends Component {
             href="#hero"
           >
             <span className="relative z-10">
-              <span className="text-glow text-foreground">Tobi's</span>{" "}
+              <span className="text-glow text-foreground">Tobi&apos;s</span>{" "}
               Portfolio
             </span>
           </a>

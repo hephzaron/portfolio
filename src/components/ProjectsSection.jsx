@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
 
 const BASE_URL = import.meta.env.BASE_URL;
