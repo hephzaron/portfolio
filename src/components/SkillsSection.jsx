@@ -91,7 +91,6 @@ class SkillsSectionBase extends Component {
    */
   handleSkillClick = (skillName) => {
     this.props.toggleSkill(skillName);
-    console.log("Clicked skill:", skillName);
     scrollToSection("projects");
   };
 

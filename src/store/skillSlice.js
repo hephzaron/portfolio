@@ -1,65 +1,72 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"; 
 
 /**
- * Class to manage skill state and related Redux reducers.
+ * Class representing the skill slice for Redux Toolkit.
+ * Provides reducers and state for managing skill selection.
  */
 class SkillSlice {
   /**
    * @constructor
-   * Initializes default state for the skill slice.
+   * Initializes the default state of the skill slice.
    */
   constructor() {
     /**
-     * Initial state for the slice
+     * Initial state of the skill slice.
      * @type {{ skillTag: string | null }}
      */
     this.initialState = {
-      skillTag: null, // No skill selected by default
+      skillTag: null, // By default, no skill is selected
     };
   }
 
+  // ================== REDUCERS ==================
+
   /**
-   * Select a skill (set skillTag to payload)
-   * @param {object} state - Redux state
-   * @param {object} action - Redux action { payload: string }
+   * Select a skill.
+   * @static
+   * @param {object} state - Redux state.
+   * @param {object} action - Redux action { payload: string }.
+   * @remarks Replaces the current skill with the given payload.
    */
-  selectSkill(state, action) {
+  static selectSkill(state, action) {
     state.skillTag = action.payload;
   }
 
   /**
-   * Reset selected skill (set skillTag to null)
-   * @param {object} state - Redux state
+   * Reset the selected skill.
+   * @static
+   * @param {object} state - Redux state.
+   * @remarks Clears the skillTag back to null.
    */
-  resetSkill(state) {
+  static resetSkill(state) {
     state.skillTag = null;
   }
 
   /**
-   * Toggle a skill (select if not selected, deselect if already selected)
-   * @param {object} state - Redux state
-   * @param {object} action - Redux action { payload: string }
+   * Toggle a skill.
+   * @static
+   * @param {object} state - Redux state.
+   * @param {object} action - Redux action { payload: string }.
+   * @remarks If the skill is already selected, deselect it. Otherwise, select it.
    */
-  toggleSkill(state, action) {
-    if (state.skillTag === action.payload) {
-      state.skillTag = null;
-    } else {
-      state.skillTag = action.payload;
-    }
+  static toggleSkill(state, action) {
+    state.skillTag = state.skillTag === action.payload ? null : action.payload;
   }
 
+  // ================== SLICE CREATOR ==================
+
   /**
-   * Create the Redux slice definition
-   * @returns {object} Slice with reducers and actions
+   * Create the Redux slice definition.
+   * @returns {object} Slice object containing reducer and actions.
    */
   create() {
     return createSlice({
       name: "skill",
       initialState: this.initialState,
       reducers: {
-        selectSkill: this.selectSkill,
-        resetSkill: this.resetSkill,
-        toggleSkill: this.toggleSkill,
+        selectSkill: SkillSlice.selectSkill,
+        resetSkill: SkillSlice.resetSkill,
+        toggleSkill: SkillSlice.toggleSkill,
       },
     });
   }
@@ -70,11 +77,15 @@ class SkillSlice {
 // Create an instance of the class
 const skillSliceInstance = new SkillSlice();
 
-// Build slice from class methods
+// Build slice using the class definition
 const skillSlice = skillSliceInstance.create();
 
-// Export actions
+/**
+ * Actions generated from the slice reducers.
+ */
 export const { selectSkill, resetSkill, toggleSkill } = skillSlice.actions;
 
-// Export reducer
+/**
+ * Reducer to be registered in the Redux store.
+ */
 export default skillSlice.reducer;
