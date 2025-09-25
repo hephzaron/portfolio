@@ -3,36 +3,45 @@ import { cn } from "@/lib/utils";
 import {StarRating} from "./StarRating";
 
 const skills = [
-  // Frontend
-  { name: "HTML/CSS", level: 95, category: "frontend" },
-  { name: "JavaScript", level: 90, category: "frontend" },
-  { name: "React", level: 90, category: "frontend" },
-  { name: "TypeScript", level: 85, category: "frontend" },
-  { name: "Tailwind CSS", level: 90, category: "frontend" },
-  { name: "Next.js", level: 80, category: "frontend" },
+  // Programming Languages
+  { name: "Python", level: 90, category: "Programming Languages" },
+  { name: "JavaScript", level: 90, category: "Programming Languages" },
+  { name: "C++", level: 50, category: "Programming Languages" },
+  { name: "Verilog HDL", level: 55, category: "Programming Languages" },
 
-  // Backend
-  { name: "Node.js", level: 80, category: "backend" },
-  { name: "Express", level: 75, category: "backend" },
-  { name: "MongoDB", level: 70, category: "backend" },
-  { name: "PostgreSQL", level: 65, category: "backend" },
-  { name: "GraphQL", level: 60, category: "backend" },
+  // Machine Learning Frameworks
+  { name: "Scikit-learn", level: 80, category: "Machine Learning Frameworks" },
+  { name: "Pandas", level: 75, category: "Machine Learning Frameworks" },
+  { name: "Numpy", level: 70, category: "Machine Learning Frameworks" },
+  { name: "TensorFlow", level: 65, category: "Machine Learning Frameworks" },
+  { name: "Pytorch", level: 60, category: "Machine Learning Frameworks" },
+  { name: "OpenCV", level: 50, category: "Machine Learning Frameworks" },
+  { name: "PySpark", level: 50, category: "Machine Learning Frameworks" },
+  { name: "TensorFlow Lite", level: 50, category: "Machine Learning Frameworks" },
+  { name: "Natural Language Toolkit (NLTK)", level: 50, category: "Machine Learning Frameworks" },
 
-  // Tools
-  { name: "Git/GitHub", level: 90, category: "tools" },
-  { name: "Docker", level: 70, category: "tools" },
-  { name: "Figma", level: 85, category: "tools" },
-  { name: "VS Code", level: 95, category: "tools" },
+  // Modelling and Tools
+  { name: "Proteus", level: 70, category: "Modelling and Tools" },
+  { name: "LTSpice", level: 70, category: "Modelling and Tools" },
+  { name: "MATLAB", level: 65, category: "Modelling and Tools" },
+  { name: "Vivado", level: 60, category: "Modelling and Tools" },
+  { name: "PSCAD", level: 40, category: "Modelling and Tools" },
+  { name: "ETAP", level: 40, category: "Modelling and Tools" },
+
+  // Other Skills
+  { name: "Digital Signal Processing (DSP)", level: 68, category: "Other Skills" },
+  { name: "Mathematical Optimization Technique", level: 50, category: "Other Skills" },
 ];
 
-const categories = ["all", "frontend", "backend", "tools"];
+const categories = [
+  "Programming Languages", "Machine Learning Frameworks", "Modelling and Tools", "Other Skills"
+];
 
 export const SkillsSection = () => {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("Programming Languages");
 
-  const filteredSkills = skills.filter(
-    (skill) => activeCategory === "all" || skill.category === activeCategory
-  );
+  const filteredSkills = skills.filter((skill) => skill.category === activeCategory);
+
   return (
     <section id="skills" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
