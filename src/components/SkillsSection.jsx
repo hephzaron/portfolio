@@ -1,10 +1,9 @@
-import { Component } from "react";
-import { connect } from "react-redux";
+import { useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { resetSkill, toggleSkill } from "@/store/skillSlice";
 import { scrollToSection } from "@/lib/scrollToSection";
 import { cn } from "@/lib/utils";
 import { StarRating } from "./StarRating";
-import PropTypes from "prop-types";
 
 // ================== DATA ==================
 /**
@@ -56,80 +55,66 @@ const categories = [
 
 // ================== COMPONENT ==================
 /**
- * Class component to render skills section with category filtering,
+ * Functional component to render skills section with category filtering,
  * Redux-based skill selection, and project section scrolling.
  */
-class SkillsSectionBase extends Component {
-  /**
-   * @constructor
-   * @param {object} props - React props
-   */
-  constructor(props) {
-    super(props);
-
-    /** @type {{ activeCategory: string }} */
-    this.state = {
-      activeCategory: "Programming Languages",
-    };
-  }
+export const SkillsSection = () => {
+  const [activeCategory, setActiveCategory] = useState("Programming Languages");
+  const skillTag = useSelector((state) => state.skill.skillTag);
+  const dispatch = useDispatch();
 
   /**
    * Handle category button click.
    * Updates active category and resets selected skill in Redux.
-   * @param {string} category - Selected skill category
-   * @returns {void}
    */
-  handleCategoryChange = (category) => {
-    this.setState({ activeCategory: category });
-    this.props.resetSkill();
-  };
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setActiveCategory(category);
+      dispatch(resetSkill());
+    },
+    [dispatch]
+  );
 
   /**
    * Handle skill card click.
    * Dispatches toggleSkill to Redux and scrolls to "projects" section.
-   * @param {string} skillName - Name of the clicked skill
-   * @returns {void}
    */
-  handleSkillClick = (skillName) => {
-    this.props.toggleSkill(skillName);
-    if (this.props.skillTag !== skillName) {
-      scrollToSection("projects");
-    }
-  };
+  const handleSkillClick = useCallback(
+    (skillName) => {
+      dispatch(toggleSkill(skillName));
+      if (skillTag !== skillName) {
+        scrollToSection("projects");
+      }
+    },
+    [dispatch, skillTag]
+  );
 
   /**
    * Renders category filter buttons.
-   * @returns {JSX.Element}
    */
-  renderCategoryButtons() {
-    const { activeCategory } = this.state;
-
-    return (
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            onClick={() => this.handleCategoryChange(category)}
-            className={cn(
-              "px-5 py-2 rounded-full transition-colors duration-300 capitalize",
-              activeCategory === category
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary/70 text-foreground hover:bd-secondary"
-            )}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-    );
-  }
+  const renderCategoryButtons = () => (
+    <div className="flex flex-wrap justify-center gap-4 mb-12">
+      {categories.map((category, index) => (
+        <button
+          key={index}
+          onClick={() => handleCategoryChange(category)}
+          className={cn(
+            "px-5 py-2 rounded-full transition-colors duration-300 capitalize",
+            activeCategory === category
+              ? "bg-primary text-primary-foreground"
+              : "bg-secondary/70 text-foreground hover:bd-secondary"
+          )}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  );
 
   /**
    * Renders skill cards for the selected category.
-   * @returns {JSX.Element}
    */
-  renderSkillsGrid() {
-    const { activeCategory } = this.state;
+  const renderSkillsGrid = () => {
     const filteredSkills = skills.filter(
       (skill) => skill.category === activeCategory
     );
@@ -139,10 +124,10 @@ class SkillsSectionBase extends Component {
         {filteredSkills.map((skill, index) => (
           <div
             key={index}
-            onClick={() => this.handleSkillClick(skill.name)}
+            onClick={() => handleSkillClick(skill.name)}
             className={cn(
               "bg-card p-6 rounded-lg shadow-xs card-hover cursor-pointer",
-              this.props.skillTag === skill.name ? "ring-2 ring-primary" : ""
+              skillTag === skill.name ? "ring-2 ring-primary" : ""
             )}
           >
             <div className="text-left mb-4">
@@ -153,55 +138,19 @@ class SkillsSectionBase extends Component {
         ))}
       </div>
     );
-  }
+  };
 
-  /**
-   * Main render method.
-   * @returns {JSX.Element}
-   */
-  render() {
-    return (
-      <section id="skills" className="py-24 px-4 relative bg-secondary/30">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            My <span className="text-primary"> Skills</span>
-          </h2>
+  // ====== Render ======
+  return (
+    <section id="skills" className="py-24 px-4 relative bg-secondary/30">
+      <div className="container mx-auto max-w-5xl">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+          My <span className="text-primary"> Skills</span>
+        </h2>
 
-          {this.renderCategoryButtons()}
-          {this.renderSkillsGrid()}
-        </div>
-      </section>
-    );
-  }
-}
-
-// PropTypes must be declared on the base class
-SkillsSectionBase.propTypes = {
-  skillTag: PropTypes.string,
-  resetSkill: PropTypes.func.isRequired,
-  toggleSkill: PropTypes.func.isRequired,
+        {renderCategoryButtons()}
+        {renderSkillsGrid()}
+      </div>
+    </section>
+  );
 };
-
-
-// ================== REDUX CONNECTION ==================
-/**
- * Maps Redux state to component props.
- * @param {object} state - Redux state
- * @returns {object}
- */
-const mapStateToProps = (state) => ({
-  skillTag: state.skill.skillTag,
-});
-
-/**
- * Maps Redux actions to component props.
- */
-const mapDispatchToProps = {
-  resetSkill,
-  toggleSkill,
-};
-
-export const SkillsSection = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SkillsSectionBase);

@@ -1,8 +1,8 @@
-import { Component } from "react";
-import { connect } from "react-redux";
+import { useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { ArrowRight, ExternalLink, Github, PackageOpen } from "lucide-react";
 import { motion } from "framer-motion";
-import {Pagination} from "./Pagination";
+import { Pagination } from "./Pagination";
 import { resetSkill } from "@/store/skillSlice";
 
 const BASE_URL = import.meta.env.BASE_URL;
@@ -103,205 +103,174 @@ function joinBaseUrl(base, path) {
   return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
 }
 
-class ProjectsSectionBase extends Component {
+/**
+ * @function ProjectsSection
+ * @description Displays a grid of projects, with filtering by skillTag and pagination.
+ * Uses Redux for state management and integrates with the skill filter.
+ */
+export const ProjectsSection = () => {
+  const skillTag = useSelector((state) => state.skill.skillTag);
+  const dispatch = useDispatch();
+
+  /**
+   * Filtered projects based on current skillTag
+   */
+  const filteredProjects = useMemo(() => {
+    if (!skillTag || skillTag === "All") return projects;
+    return projects.filter((project) => project.tags.includes(skillTag));
+  }, [skillTag]);
+
   /**
    * Render a single project card
-   * @param {Object} project - Project object with id, title, description, tags, image, demoUrl, githubUrl
-   * @returns {JSX.Element}
    */
-  renderProjectCard(project) {
-    return (
-      <div
-        key={project.id}
-        className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover"
-      >
-        {/* Project image */}
-        <div className="h-48 overflow-hidden">
-          <img
-            src={`${joinBaseUrl(BASE_URL, project.image)}`}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+  const renderProjectCard = (project) => (
+    <div
+      key={project.id}
+      className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover"
+    >
+      {/* Project image */}
+      <div className="h-48 overflow-hidden">
+        <img
+          src={joinBaseUrl(BASE_URL, project.image)}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+      </div>
+
+      {/* Project content */}
+      <div className="p-6">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
 
-        {/* Project content */}
-        <div className="p-6">
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag, idx) => (
-              <span
-                className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground"
-                key={idx}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        {/* Title + Description */}
+        <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
+        <p className="text-muted-foreground text-sm mb-4">
+          {project.description}
+        </p>
 
-          {/* Title + Description */}
-          <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
-          <p className="text-muted-foreground text-sm mb-4">
-            {project.description}
-          </p>
-
-          {/* External Links */}
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-3">
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/80 hover:text-primary transition-colors duration-300"
-              >
-                <ExternalLink size={20} />
-              </a>
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/80 hover:text-primary transition-colors duration-300"
-              >
-                <Github size={20} />
-              </a>
-            </div>
+        {/* External Links */}
+        <div className="flex justify-between items-center">
+          <div className="flex space-x-3">
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+            >
+              <ExternalLink size={20} />
+            </a>
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+            >
+              <Github size={20} />
+            </a>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 
   /**
    * Render empty state when no projects match
-   * @returns {JSX.Element}
    */
-  renderEmptyState() {
-    return (
-      <motion.div
-        key="empty"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="col-span-full flex flex-col items-center justify-center h-64 border-2 border-dashed border-border rounded-lg bg-gradient-to-br from-secondary/20 via-background to-primary/20"
-      >
-        <PackageOpen className="w-12 h-12 text-primary mb-4 animate-bounce" />
-        <p className="text-lg font-medium text-muted-foreground">
-          No projects match this skill.
-        </p>
-        <p className="text-sm text-muted-foreground/70 mb-4">
-          Try selecting another skill to explore more.
-        </p>
+  const renderEmptyState = () => (
+    <motion.div
+      key="empty"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      className="col-span-full flex flex-col items-center justify-center h-64 border-2 border-dashed border-border rounded-lg bg-gradient-to-br from-secondary/20 via-background to-primary/20"
+    >
+      <PackageOpen className="w-12 h-12 text-primary mb-4 animate-bounce" />
+      <p className="text-lg font-medium text-muted-foreground">
+        No projects match this skill.
+      </p>
+      <p className="text-sm text-muted-foreground/70 mb-4">
+        Try selecting another skill to explore more.
+      </p>
 
-        {/* Action buttons */}
-        <div className="flex gap-4">
-          {/* Back to skills */}
-          <button
-            onClick={() =>
-              document
-                .getElementById("skills")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="cosmic-button flex items-center gap-2"
-          >
-            Back to Skills
-          </button>
-
-          {/* Reset skill filter */}
-          <button
-            onClick={this.props.resetSkill}
-            className="cosmic-button flex items-center gap-2"
-          >
-            Reset Filter
-          </button>
-        </div>
-      </motion.div>
-    );
-  }
+      {/* Action buttons */}
+      <div className="flex gap-4">
+        <button
+          onClick={() =>
+            document
+              .getElementById("skills")
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="cosmic-button flex items-center gap-2"
+        >
+          Back to Skills
+        </button>
+        <button
+          onClick={() => dispatch(resetSkill())}
+          className="cosmic-button flex items-center gap-2"
+        >
+          Reset Filter
+        </button>
+      </div>
+    </motion.div>
+  );
 
   /**
-   * Render the projects grid (either paginated projects or empty state)
-   * @param {Array} filteredProjects - projects after applying skillTag filter
-   * @returns {JSX.Element}
+   * Render the projects grid (paginated or empty state)
    */
-  renderProjectsGrid(filteredProjects) {
-    if (filteredProjects.length === 0) {
-      return this.renderEmptyState();
-    }
-
-    return (
+  const renderProjectsGrid = () =>
+    filteredProjects.length === 0 ? (
+      renderEmptyState()
+    ) : (
       <Pagination
         items={filteredProjects}
         itemsPerPage={6}
         renderPage={(pageItems) => (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pageItems.map((project) => this.renderProjectCard(project))}
+            {pageItems.map((project) => renderProjectCard(project))}
           </div>
         )}
       />
     );
-  }
 
-  render() {
-    const { skillTag } = this.props;
+  return (
+    <section id="projects" className="py-24 px-4 relative">
+      <div className="container mx-auto max-w-5xl">
+        {/* Section Heading */}
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+          Featured <span className="text-primary"> Projects </span>
+        </h2>
 
-    const filteredProjects =
-      !skillTag || skillTag === "All"
-        ? projects
-        : projects.filter((project) => project.tags.includes(skillTag));
+        {/* Intro paragraph */}
+        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+          Browse my projects below. They are automatically filtered based on the
+          selected skill from the Skills section.
+        </p>
 
-    return (
-      <section id="projects" className="py-24 px-4 relative">
-        <div className="container mx-auto max-w-5xl">
-          {/* Section Heading */}
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-            Featured <span className="text-primary"> Projects </span>
-          </h2>
+        {/* Render Grid */}
+        {renderProjectsGrid()}
 
-          {/* Intro paragraph */}
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Browse my projects below. They are automatically filtered based on
-            the selected skill from the Skills section.
-          </p>
-
-          {/* Render Grid */}
-          {this.renderProjectsGrid(filteredProjects)}
-
-          {/* GitHub button */}
-          <div className="text-center mt-12">
-            <a
-              className="cosmic-button w-fit flex items-center mx-auto gap-2"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://github.com/hephzaron"
-            >
-              Check My Github <ArrowRight size={16} />
-            </a>
-          </div>
+        {/* GitHub button */}
+        <div className="text-center mt-12">
+          <a
+            className="cosmic-button w-fit flex items-center mx-auto gap-2"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/hephzaron"
+          >
+            Check My Github <ArrowRight size={16} />
+          </a>
         </div>
-      </section>
-    );
-  }
-}
-
-/**
- * Redux: map state to props
- * @param {Object} state - Redux store state
- * @returns {{ skillTag: string|null }}
- */
-const mapStateToProps = (state) => ({
-  skillTag: state.skill.skillTag,
-});
-
-/**
- * Maps Redux actions to props
- * @param {Function} dispatch - Redux dispatch function
- */
-const mapDispatchToProps = (dispatch) => ({
-  resetSkill: () => dispatch(resetSkill()),
-});
-
-// connect both state + dispatch to class component
-export const ProjectsSection = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectsSectionBase);
+      </div>
+    </section>
+  );
+};

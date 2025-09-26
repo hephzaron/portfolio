@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
- * Pagination Component (Class-based)
- * -----------------------------------
+ * Pagination Component (Functional)
+ * ---------------------------------
  * A reusable pagination wrapper that slices a list of items into
  * pages and provides navigation controls.
  *
@@ -17,7 +17,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  * - renderPage: function(pageItems: Array<any>) => ReactNode
  *      A render-prop style function used to render the current page's items.
  *
- * State:
+ * State (internal):
  * - currentPage: number
  *      The currently active page index (1-based).
  *
@@ -38,125 +38,100 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  *   )}
  * />
  */
-class PaginationBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentPage: 1, // default page
-    };
-  }
+export const Pagination = ({ items, itemsPerPage, renderPage }) => {
+  const [currentPage, setCurrentPage] = useState(1);
 
   /**
    * Calculates total number of pages
-   * @returns {number}
    */
-  getTotalPages = () => {
-    const { items, itemsPerPage } = this.props;
-    return Math.ceil(items.length / itemsPerPage);
-  };
+  const totalPages = useMemo(
+    () => Math.ceil(items.length / itemsPerPage),
+    [items.length, itemsPerPage]
+  );
 
   /**
    * Retrieves items for the current page
-   * @returns {Array<any>}
    */
-  getCurrentPageItems = () => {
-    const { currentPage } = this.state;
-    const { items, itemsPerPage } = this.props;
-
+  const currentPageItems = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return items.slice(startIndex, startIndex + itemsPerPage);
-  };
+  }, [items, currentPage, itemsPerPage]);
 
   /**
    * Navigates to a specific page number
-   * @param {number} pageNumber - Target page index
    */
-  goToPage = (pageNumber) => {
-    const totalPages = this.getTotalPages();
-
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      this.setState({ currentPage: pageNumber });
-    }
-  };
+  const goToPage = useCallback(
+    (pageNumber) => {
+      if (pageNumber >= 1 && pageNumber <= totalPages) {
+        setCurrentPage(pageNumber);
+      }
+    },
+    [totalPages]
+  );
 
   /**
    * Navigate to next page
    */
-  handleNextPage = () => {
-    this.goToPage(this.state.currentPage + 1);
-  };
+  const handleNextPage = useCallback(
+    () => goToPage(currentPage + 1),
+    [goToPage, currentPage]
+  );
 
   /**
    * Navigate to previous page
    */
-  handlePrevPage = () => {
-    this.goToPage(this.state.currentPage - 1);
-  };
+  const handlePrevPage = useCallback(
+    () => goToPage(currentPage - 1),
+    [goToPage, currentPage]
+  );
 
   /**
-   * Renders pagination controls
-   * @returns {ReactNode}
+   * Render pagination controls
    */
-  renderControls = () => {
-    const { currentPage } = this.state;
-    const totalPages = this.getTotalPages();
+  const renderControls = () => (
+    <div className="flex justify-center items-center gap-2 mt-8">
+      {/* Previous button */}
+      <button
+        onClick={handlePrevPage}
+        disabled={currentPage === 1}
+        className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
+      >
+        <ChevronLeft size={16} /> Prev
+      </button>
 
-    return (
-      <div className="flex justify-center items-center gap-2 mt-8">
-        {/* Previous button */}
+      {/* Page indicators */}
+      {Array.from({ length: totalPages }, (_, idx) => (
         <button
-          onClick={this.handlePrevPage}
-          disabled={currentPage === 1}
-          className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
+          key={idx + 1}
+          onClick={() => goToPage(idx + 1)}
+          className={`w-8 h-8 flex items-center justify-center rounded-md border ${
+            currentPage === idx + 1
+              ? "bg-primary text-white"
+              : "bg-background hover:bg-muted"
+          }`}
         >
-          <ChevronLeft size={16} /> Prev
+          {idx + 1}
         </button>
+      ))}
 
-        {/* Page indicators */}
-        {Array.from({ length: totalPages }, (_, idx) => (
-          <button
-            key={idx + 1}
-            onClick={() => this.goToPage(idx + 1)}
-            className={`w-8 h-8 flex items-center justify-center rounded-md border ${
-              currentPage === idx + 1
-                ? "bg-primary text-white"
-                : "bg-background hover:bg-muted"
-            }`}
-          >
-            {idx + 1}
-          </button>
-        ))}
+      {/* Next button */}
+      <button
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+        className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
+      >
+        Next <ChevronRight size={16} />
+      </button>
+    </div>
+  );
 
-        {/* Next button */}
-        <button
-          onClick={this.handleNextPage}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
-        >
-          Next <ChevronRight size={16} />
-        </button>
-      </div>
-    );
-  };
+  return (
+    <div>
+      {/* Render current page's items */}
+      {renderPage(currentPageItems)}
 
-  /**
-   * Renders component
-   */
-  render() {
-    const pageItems = this.getCurrentPageItems();
-    const { renderPage } = this.props;
-
-    return (
-      <div>
-        {/* Render current page's items */}
-        {renderPage(pageItems)}
-
-        {/* Render pagination controls */}
-        {this.renderControls()}
-      </div>
-    );
-  }
-}
-
-export const Pagination = PaginationBase;
+      {/* Render pagination controls */}
+      {renderControls()}
+    </div>
+  );
+};

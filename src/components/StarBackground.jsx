@@ -1,7 +1,7 @@
-import { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 /**
- * StarBackground Component (Class-based)
+ * StarBackground Component (Functional)
  * ---------------------------------------
  * Creates an animated background with:
  * - Randomly generated twinkling stars
@@ -16,50 +16,9 @@ import { Component } from "react";
  * - stars: Array of star objects (id, size, x, y, opacity, animationDuration)
  * - meteors: Array of meteor objects (id, size, x, y, delay, animationDuration)
  */
-class StarBackgroundBase extends Component {
-  constructor(props) {
-    super(props);
-
-    // Initialize state
-    this.state = {
-      stars: [],
-      meteors: [],
-    };
-
-    // Bind methods to class instance
-    this.generateStars = this.generateStars.bind(this);
-    this.generateMeteors = this.generateMeteors.bind(this);
-    this.handleResize = this.handleResize.bind(this);
-  }
-
-  /**
-   * Lifecycle Method: componentDidMount
-   * Runs after the component mounts.
-   * - Generates initial stars and meteors
-   * - Adds window resize listener
-   */
-  componentDidMount() {
-    this.generateStars();
-    this.generateMeteors();
-    window.addEventListener("resize", this.handleResize);
-  }
-
-  /**
-   * Lifecycle Method: componentWillUnmount
-   * Runs before the component unmounts.
-   * - Cleans up the resize event listener
-   */
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
-
-  /**
-   * Event Handler: handleResize
-   * Regenerates stars when the window is resized.
-   */
-  handleResize() {
-    this.generateStars();
-  }
+export const StarBackground = () => {
+  const [stars, setStars] = useState([]);
+  const [meteors, setMeteors] = useState([]);
 
   /**
    * Generates a set of stars based on viewport size.
@@ -70,25 +29,22 @@ class StarBackgroundBase extends Component {
    * - opacity (0.5–1.0)
    * - animation duration (2–6s)
    */
-  generateStars() {
+  const generateStars = useCallback(() => {
     const numberOfStars = Math.floor(
       (window.innerWidth * window.innerHeight) / 10000
     );
 
-    const newStars = [];
-    for (let i = 0; i < numberOfStars; i++) {
-      newStars.push({
-        id: i,
-        size: Math.random() * 3 + 1,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        opacity: Math.random() * 0.5 + 0.5,
-        animationDuration: Math.random() * 4 + 2,
-      });
-    }
+    const newStars = Array.from({ length: numberOfStars }, (_, i) => ({
+      id: i,
+      size: Math.random() * 3 + 1,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      opacity: Math.random() * 0.5 + 0.5,
+      animationDuration: Math.random() * 4 + 2,
+    }));
 
-    this.setState({ stars: newStars });
-  }
+    setStars(newStars);
+  }, []);
 
   /**
    * Generates a fixed number of meteors (default: 4).
@@ -98,67 +54,71 @@ class StarBackgroundBase extends Component {
    * - delay (0–15s)
    * - animation duration (3–6s)
    */
-  generateMeteors() {
+  const generateMeteors = useCallback(() => {
     const numberOfMeteors = 4;
-    const newMeteors = [];
 
-    for (let i = 0; i < numberOfMeteors; i++) {
-      newMeteors.push({
-        id: i,
-        size: Math.random() * 2 + 1,
-        x: Math.random() * 100,
-        y: Math.random() * 20,
-        delay: Math.random() * 15,
-        animationDuration: Math.random() * 3 + 3,
-      });
-    }
+    const newMeteors = Array.from({ length: numberOfMeteors }, (_, i) => ({
+      id: i,
+      size: Math.random() * 2 + 1,
+      x: Math.random() * 100,
+      y: Math.random() * 20,
+      delay: Math.random() * 15,
+      animationDuration: Math.random() * 3 + 3,
+    }));
 
-    this.setState({ meteors: newMeteors });
-  }
+    setMeteors(newMeteors);
+  }, []);
 
   /**
-   * Render Method
-   * Returns the JSX structure for stars + meteors.
+   * Lifecycle: componentDidMount + componentWillUnmount equivalent
+   * - Generates initial stars and meteors
+   * - Attaches and cleans up resize listener
    */
-  render() {
-    const { stars, meteors } = this.state;
+  useEffect(() => {
+    generateStars();
+    generateMeteors();
 
-    return (
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Render Stars */}
-        {stars.map((star) => (
-          <div
-            key={star.id}
-            className="star animate-pulse-subtle"
-            style={{
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              opacity: star.opacity,
-              animationDuration: `${star.animationDuration}s`,
-            }}
-          />
-        ))}
+    const handleResize = () => generateStars();
+    window.addEventListener("resize", handleResize);
 
-        {/* Render Meteors */}
-        {meteors.map((meteor) => (
-          <div
-            key={meteor.id}
-            className="meteor animate-meteor"
-            style={{
-              width: `${meteor.size * 50}px`,
-              height: `${meteor.size * 2}px`,
-              left: `${meteor.x}%`,
-              top: `${meteor.y}%`,
-              animationDelay: `${meteor.delay}s`,
-              animationDuration: `${meteor.animationDuration}s`,
-            }}
-          />
-        ))}
-      </div>
-    );
-  }
-}
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [generateStars, generateMeteors]);
 
-export const StarBackground = StarBackgroundBase;
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Render Stars */}
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="star animate-pulse-subtle"
+          style={{
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            opacity: star.opacity,
+            animationDuration: `${star.animationDuration}s`,
+          }}
+        />
+      ))}
+
+      {/* Render Meteors */}
+      {meteors.map((meteor) => (
+        <div
+          key={meteor.id}
+          className="meteor animate-meteor"
+          style={{
+            width: `${meteor.size * 50}px`,
+            height: `${meteor.size * 2}px`,
+            left: `${meteor.x}%`,
+            top: `${meteor.y}%`,
+            animationDelay: `${meteor.delay}s`,
+            animationDuration: `${meteor.animationDuration}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};

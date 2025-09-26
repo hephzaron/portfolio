@@ -1,4 +1,3 @@
-import { Component } from "react";
 import { Navbar } from "../components/Navbar";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { StarBackground } from "@/components/StarBackground";
@@ -14,43 +13,37 @@ import { Footer } from "../components/Footer";
  * --------------------------------------------------
  * Root page component for the portfolio website.
  *
- * - Includes global background effects
- * - Contains navigation, hero, about, skills, projects, contact, and footer sections
+ * Features:
  * - Provides theme toggle functionality
+ * - Includes global background effects
+ * - Renders all key sections: navigation, hero, about, skills,
+ *   projects, contact, and footer
  *
- * @remarks
- * This component serves as the main entry point of the application.
+ * @returns {JSX.Element} Fully structured home page with sections
  */
-export class Home extends Component {
-  /**
-   * Render the portfolio homepage
-   *
-   * @returns {JSX.Element} Fully structured home page with sections
-   */
-  render() {
-    return (
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-        {/* Theme Toggle */}
-        <ThemeToggle />
+export function Home() {
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Theme Toggle */}
+      <ThemeToggle />
 
-        {/* Background Effects */}
-        <StarBackground />
+      {/* Background Effects */}
+      <StarBackground />
 
-        {/* Navbar */}
-        <Navbar />
+      {/* Navbar */}
+      <Navbar />
 
-        {/* Main Content */}
-        <main>
-          <HeroSection />
-          <AboutSection />
-          <SkillsSection />
-          <ProjectsSection />
-          <ContactSection />
-        </main>
+      {/* Main Content */}
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ContactSection />
+      </main>
 
-        {/* Footer */}
-        <Footer />
-      </div>
-    );
-  }
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
 }
