@@ -11,23 +11,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  * - items: Array<any>
  *      The full dataset (e.g., list of projects).
  *
- * - itemsPerPage: number
+ * - itemsPerPage: number (default: 10)
  *      Number of items to display per page.
  *
  * - renderPage: function(pageItems: Array<any>) => ReactNode
  *      A render-prop style function used to render the current page's items.
  *
- * State (internal):
- * - currentPage: number
- *      The currently active page index (1-based).
- *
- * Features:
- * - Handles page switching (next, previous, direct page selection)
- * - Disables navigation when at the start or end
- * - Fully controlled internally, but flexible via props
- *
- * Example Usage:
- * --------------
+ * Example:
  * <Pagination
  *   items={projects}
  *   itemsPerPage={6}
@@ -38,28 +28,19 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  *   )}
  * />
  */
-export const Pagination = ({ items, itemsPerPage, renderPage }) => {
+export const Pagination = ({ items, itemsPerPage = 10, renderPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  /**
-   * Calculates total number of pages
-   */
   const totalPages = useMemo(
     () => Math.ceil(items.length / itemsPerPage),
     [items.length, itemsPerPage]
   );
 
-  /**
-   * Retrieves items for the current page
-   */
   const currentPageItems = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return items.slice(startIndex, startIndex + itemsPerPage);
   }, [items, currentPage, itemsPerPage]);
 
-  /**
-   * Navigates to a specific page number
-   */
   const goToPage = useCallback(
     (pageNumber) => {
       if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -69,69 +50,65 @@ export const Pagination = ({ items, itemsPerPage, renderPage }) => {
     [totalPages]
   );
 
-  /**
-   * Navigate to next page
-   */
   const handleNextPage = useCallback(
     () => goToPage(currentPage + 1),
     [goToPage, currentPage]
   );
 
-  /**
-   * Navigate to previous page
-   */
   const handlePrevPage = useCallback(
     () => goToPage(currentPage - 1),
     [goToPage, currentPage]
   );
 
-  /**
-   * Render pagination controls
-   */
-  const renderControls = () => (
-    <div className="flex justify-center items-center gap-2 mt-8">
-      {/* Previous button */}
+  const Controls = () => (
+    <nav
+      className="flex justify-center items-center gap-2 mb-6"
+      role="navigation"
+      aria-label="Pagination"
+    >
       <button
         onClick={handlePrevPage}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
-      >
+        className="px-3 py-1 rounded-md border bg-secondary transition-colors cursor-pointer 
+          disabled:cursor-not-allowed text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
+        aria-label="Previous Page">
         <ChevronLeft size={16} /> Prev
       </button>
 
-      {/* Page indicators */}
-      {Array.from({ length: totalPages }, (_, idx) => (
-        <button
-          key={idx + 1}
-          onClick={() => goToPage(idx + 1)}
-          className={`w-8 h-8 flex items-center justify-center rounded-md border ${
-            currentPage === idx + 1
-              ? "bg-primary text-white"
-              : "bg-background hover:bg-muted"
-          }`}
-        >
-          {idx + 1}
-        </button>
-      ))}
+      {Array.from({ length: totalPages }, (_, idx) => {
+        const pageNum = idx + 1;
+        return (
+          <button
+            key={pageNum}
+            onClick={() => goToPage(pageNum)}
+            aria-current={currentPage === pageNum ? "page" : undefined}
+            aria-label={`Go to page ${pageNum}`}
+            className={`w-8 h-8 flex items-center justify-center rounded-md border 
+              transition-colors cursor-pointer disabled:cursor-not-allowed  
+              ${ currentPage === pageNum ? "bg-primary text-white": "bg-background hover:bg-muted"}`}>
+            {pageNum}
+          </button>
+        );
+      })}
 
-      {/* Next button */}
       <button
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 rounded-md border bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
-      >
+        className="px-3 py-1 rounded-md border bg-secondary transition-colors cursor-pointer disabled:cursor-not-allowed 
+         text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 flex items-center gap-1"
+        aria-label="Next Page">
         Next <ChevronRight size={16} />
       </button>
-    </div>
+    </nav>
   );
 
   return (
     <div>
+      {/* Controls on top */}
+      <Controls />
+
       {/* Render current page's items */}
       {renderPage(currentPageItems)}
-
-      {/* Render pagination controls */}
-      {renderControls()}
     </div>
   );
 };
