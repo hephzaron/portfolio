@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaXTwitter, FaTelegram } from "react-icons/fa6";
 import emailjs from "@emailjs/browser";
 import PropTypes from "prop-types"; 
 
@@ -64,14 +64,14 @@ const ContactInfo = () => (
       <ContactItem
         Icon={Mail}
         label="Email"
-        value="tobi_daramola@yahoo.com"
-        href="mailto:tobi_daramola@yahoo.com"
+        value="wazrontechnologies@gmail.com"
+        href="mailto:wazrontechnologies@gmail.com"
       />
       <ContactItem
         Icon={Phone}
         label="Phone"
-        value="+234 (816) 228-0885"
-        href="tel:+2348162280885"
+        value="+234 (802) 916-5809"
+        href="tel:+2348029165809"
       />
       <ContactItem
         Icon={MapPin}
@@ -89,8 +89,8 @@ const ContactInfo = () => (
         <a href="https://x.com/HorebZion/" target="_blank" rel="noopener noreferrer">
           <FaXTwitter size={24}/>
         </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <Instagram />
+        <a href="https://t.me/wazrontechnologies" target="_blank" rel="noopener noreferrer">
+          <FaTelegram  size={24}/>
         </a>
       </div>
     </div>
