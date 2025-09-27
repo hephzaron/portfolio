@@ -89,7 +89,7 @@ const ContactInfo = () => (
         <a href="https://x.com/HorebZion/" target="_blank" rel="noopener noreferrer">
           <FaXTwitter size={24}/>
         </a>
-        <a href="https://t.me/+9rD3qGR0BFE2MWVAk" target="_blank" rel="noopener noreferrer">
+        <a href="https://t.me/+9rD3qGR0BFE2MWVk" target="_blank" rel="noopener noreferrer">
           <FaTelegram  size={24}/>
         </a>
       </div>
