@@ -1,4 +1,5 @@
 import { UtilityPole, CircuitBoard, BrainCircuit } from "lucide-react";
+import PropTypes from "prop-types";
 
 /**
  * Render the section header.
@@ -70,6 +71,12 @@ const SkillCard = ({ Icon, title, description }) => (
     </div>
   </div>
 );
+
+SkillCard.propTypes = {
+  Icon: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+};
 
 /**
  * Render the skills area with multiple cards (right-side content).

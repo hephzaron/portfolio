@@ -4,15 +4,14 @@ import {
   Mail,
   MapPin,
   Phone,
-  Send,
-  Twitch,
-  Twitter,
+  Send
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import emailjs from "@emailjs/browser";
+import PropTypes from "prop-types"; 
 
 /**
  * Render a single contact item (icon + label + value).
@@ -44,6 +43,13 @@ const ContactItem = ({ Icon, label, value, href }) => (
     </div>
   </div>
 );
+
+ContactItem.propTypes = {
+  Icon: PropTypes.elementType.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  href: PropTypes.string,
+};
 
 /**
  * Render the left column: contact information and social links.

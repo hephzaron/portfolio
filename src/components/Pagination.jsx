@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import PropTypes from "prop-types";
 
 /**
  * Pagination Component (Functional)
@@ -111,4 +112,10 @@ export const Pagination = ({ items, itemsPerPage = 10, renderPage }) => {
       {renderPage(currentPageItems)}
     </div>
   );
+};
+
+Pagination.propTypes = {
+  items: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number,
+  renderPage: PropTypes.func.isRequired,
 };

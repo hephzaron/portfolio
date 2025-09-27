@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import PropTypes from "prop-types";
 
 /**
  * Navigation items for the portfolio.
@@ -66,6 +67,11 @@ const MobileNav = ({ isMenuOpen, closeMenu }) => (
   </div>
 );
 
+MobileNav.propTypes = {
+  isMenuOpen: PropTypes.bool.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+};
+
 /**
  * Render the menu toggle button for mobile view.
  *
@@ -83,6 +89,11 @@ const MenuToggle = ({ isMenuOpen, toggleMenu }) => (
     {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
   </button>
 );
+
+MenuToggle.propTypes = {
+  isMenuOpen: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+};
 
 /**
  * @function Navbar
