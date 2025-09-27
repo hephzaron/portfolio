@@ -1,4 +1,4 @@
-# Modern Portfolio Website with React & TailwindCSS
+# Tobi's Portfolio Website with React & TailwindCSS
 <small>Credits to <a href="https://github.com/machadop1407">Pedro Machado</a> for the repo provided to jumpstart my own portfolio with additonal/improved functionality</small>
 <div align="center">
   <br />
@@ -9,7 +9,8 @@
     <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
     <img src="https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white" alt="Redux" />
-    <img src="https://img.shields.io/badge/-Lucide Icons-FD4D4D?style=for-the-badge&logo=lucide" alt="Lucide Icons" /><img src="https://img.shields.io/badge/EmailJS-FF6C37?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" />
+    <img src="https://img.shields.io/badge/-Lucide Icons-FD4D4D?style=for-the-badge&logo=lucide" alt="Lucide Icons" />
+    <img src="https://img.shields.io/badge/EmailJS-FF6C37?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
 
   </div>
@@ -95,25 +96,68 @@ Your app will be available at: [http://localhost:5173](http://localhost:5173)
 
 ## 📸🖼️ Screenshots
 
-<img src="./readme/aboutMe_banner.png" alt="Portfolio Website Banner">
-<img src="./readme/skill_banner.png" alt="Portfolio Website Banner">
-<img src="./readme/project_banner.png" alt="Portfolio Website Banner">
-<img src="./readme/selectSKill_banner.png" alt="Portfolio Website Banner">
-<img src="./readme/filteredproject_banner.png" alt="Portfolio Website Banner">
-<img src="./readme/noproject_banner.png" alt="Portfolio Website Banner">
+<table>
+  <tr>
+    <td><img src="./readme/aboutMe_banner.png" alt="About Me" width="100%"></td>
+    <td><img src="./readme/skill_banner.png" alt="Skills" width="100%"></td>
+    <td><img src="./readme/project_banner.png" alt="Projects" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="./readme/selectSKill_banner.png" alt="Select Skill" width="100%"></td>
+    <td><img src="./readme/filteredproject_banner.png" alt="Filtered Projects" width="100%"></td>
+    <td><img src="./readme/noproject_banner.png" alt="No Projects" width="100%"></td>
+  </tr>
+</table>
+
 
 ---
 
 ## ☁️ Deployment
 
-### Deploy on Vercel
+### Deploy on githubpage
 
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repository
-4. Click **Deploy**
+✅ 1. Set the homepage in package.json
+```bash
+"homepage": "https://<your-username>.github.io/<your-repo-name>"
+```
+<i>Replace <b>your-username</b> and <b>your-repo-name</b> with your actual GitHub username and repository name. </i>
 
-Your live website will be hosted on a custom subdomain (e.g. `https://your-name.vercel.app`)
+✅ 2. Push your code to GitHub
+Make sure your latest code is pushed to the main (or master) branch of your GitHub repository.
+
+✅ 3. Create GitHub Actions workflow
+Automatically build and deploy to your github-page when you push commits to the main branch
+```
+Create a new file at .github/workflows/workflow.yml in your project directory, or ensure the one in this repo is present on the same path
+```
+
+✅ 4. Configure your router 
+```jsx
+<BrowserRouter basename="/<your-repo-name>">
+```
+✅ 5. Enable GitHub Pages
+- Go to your repository on GitHub
+- Click Settings > Pages
+- Under Build and deployment:
+- Source: Deploy from a branch
+- Branch: gh-pages
+- Folder: / (root)
+- Click Save
+
+✅ 6. Enable Form to send mail messages
+- Go to [EmailJS.com](https://www.emailjs.com/)
+- Create an account for email services and obtain your `service_id`, `template_id` and `public_key`
+- The credentials should be stored safely in `.env` within your project root and also added to your `repository secrets` under `actions` in `Secrets and Variables` setting. Your `.env` should look like:
+```js
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_USER_ID=your_public_key
+```
+- For more on setting up your EmailJS dashbaord, visit: [EmailJS Doc](https://www.emailjs.com/docs/tutorial/overview/)
+
+✅7. Done 🎉
+Your site will automatically be built and deployed to gh-page every time you push changes to the main branch. It will be live at:
+`https://<your-username>.github.io/<your-repo-name>`
 
 ---
 
@@ -122,10 +166,8 @@ Your live website will be hosted on a custom subdomain (e.g. `https://your-name.
 * [React Documentation](https://reactjs.org/)
 * [Tailwind CSS Docs](https://tailwindcss.com/)
 * [Lucide Icons](https://lucide.dev/)
-* [Radix UI](https://www.radix-ui.com/)
+* [Redux](https://redux.js.org/tutorials/quick-start)
 * [Vite](https://vitejs.dev/)
-* [Vercel](https://vercel.com/)
+* [EmailJS](https://www.emailjs.com/)
 
 ---
-
-Let me know if you'd like me to generate a version with your actual GitHub repo, YouTube URL, or a banner image suggestion!
