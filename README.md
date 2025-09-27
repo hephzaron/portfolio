@@ -36,6 +36,7 @@ A modern portfolio website using **React**, **TailwindCSS**, **Vite**, and **Luc
 ## ⚙️ Tech Stack
 
 * **React** – Component-based UI development
+* **Redux Toolkit** - Simplified and efficient state management for React
 * **Vite** – Lightning-fast build tool
 * **TailwindCSS** – Utility-first CSS for styling
 * **Lucide Icons** – Clean and beautiful icon pack
@@ -44,9 +45,9 @@ A modern portfolio website using **React**, **TailwindCSS**, **Vite**, and **Luc
 
 ---
 
-## ⚡️ Features
+## ✨ Features
 
-* 🌑 **Light/Dark Mode Toggle**
+* 🌓 **Light/Dark Mode Toggle**
   Save theme preference in local storage with beautiful transitions
 
 * 💫 **Animated Backgrounds**
@@ -64,13 +65,13 @@ A modern portfolio website using **React**, **TailwindCSS**, **Vite**, and **Luc
 * 🖼️ **Paginated Projects Showcase**
   Display screenshots, tech stacks, and GitHub/demo links
 
-* 🖼️ **Skills Grids & Projects Filtering**
-  Filter related projects when a skill is selected 
+* 🎯 **Skill-Based Project Filtering**
+  Select a skill to dynamically filter related projects
 
 * 📩 **Contact Section**
   Social icons + responsive and functional contact form using EmailJS with toast notifications
 
-* 🚀 **One-Click Deployment**
+* ⚙️ **One-Click Deployment**
   Easily deploy site on github page using workflow.yml
 
 ---
@@ -101,10 +102,12 @@ Your app will be available at: [http://localhost:5173](http://localhost:5173)
   <tr>
     <td><img src="./readme/aboutMe_banner.png" alt="About Me" width="100%"></td>
     <td><img src="./readme/skill_banner.png" alt="Skills" width="100%"></td>
-    <td><img src="./readme/project_banner.png" alt="Projects" width="100%"></td>
   </tr>
   <tr>
-    <td><img src="./readme/selectSKill_banner.png" alt="Select Skill" width="100%"></td>
+    <td><img src="./readme/project_banner.png" alt="Projects" width="100%"></td>
+    <td><img src="./readme/selectskill_banner.png" alt="Select Skill" width="100%"></td>
+  </tr>
+  <tr>
     <td><img src="./readme/filteredproject_banner.png" alt="Filtered Projects" width="100%"></td>
     <td><img src="./readme/noproject_banner.png" alt="No Projects" width="100%"></td>
   </tr>
@@ -118,19 +121,20 @@ Your app will be available at: [http://localhost:5173](http://localhost:5173)
 ### Deploy on githubpage
 
 ✅ 1. Set the homepage in package.json
-```bash
+`
 "homepage": "https://<your-username>.github.io/<your-repo-name>"
-```
+`
 <i>Replace <b>your-username</b> and <b>your-repo-name</b> with your actual GitHub username and repository name. </i>
 
 ✅ 2. Push your code to GitHub
+
 Make sure your latest code is pushed to the main (or master) branch of your GitHub repository.
 
 ✅ 3. Create GitHub Actions workflow
-Automatically build and deploy to your github-page when you push commits to the main branch
-```
-Create a new file at .github/workflows/workflow.yml in your project directory, or ensure the one in this repo is present on the same path
-```
+
+Automatically build and deploy to your github-page when you push commits to the main branch.
+Create a new file at `.github/workflows/workflow.yml` in your project directory, or ensure the one in this repo is present on the same path
+`
 
 ✅ 4. Configure your router 
 ```jsx
