@@ -12,7 +12,6 @@
     <img src="https://img.shields.io/badge/-Lucide Icons-FD4D4D?style=for-the-badge&logo=lucide" alt="Lucide Icons" />
     <img src="https://img.shields.io/badge/EmailJS-FF6C37?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-
   </div>
   <br />
 </div>
