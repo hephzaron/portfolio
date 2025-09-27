@@ -159,7 +159,7 @@ VITE_EMAILJS_USER_ID=your_public_key
 ```
 - For more on setting up your EmailJS dashbaord, visit: [EmailJS Doc](https://www.emailjs.com/docs/tutorial/overview/)
 
-✅7. Done 🎉
+✅ 7. Done 🎉
 Your site will automatically be built and deployed to gh-page every time you push changes to the main branch. It will be live at:
 `https://<your-username>.github.io/<your-repo-name>`
 
