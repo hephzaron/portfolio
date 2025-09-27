@@ -11,6 +11,8 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { FaXTwitter } from "react-icons/fa6";
+import emailjs from "@emailjs/browser";
 
 /**
  * Render a single contact item (icon + label + value).
@@ -56,36 +58,33 @@ const ContactInfo = () => (
       <ContactItem
         Icon={Mail}
         label="Email"
-        value="hello@gmail.com"
-        href="mailto:hello@gmail.com"
+        value="tobi_daramola@yahoo.com"
+        href="mailto:tobi_daramola@yahoo.com"
       />
       <ContactItem
         Icon={Phone}
         label="Phone"
-        value="+1 (123) 456-7890"
-        href="tel:+11234567890"
+        value="+234 (816) 228-0885"
+        href="tel:+2348162280885"
       />
       <ContactItem
         Icon={MapPin}
         label="Location"
-        value="Vancouver, BC, Canada"
+        value="Benin City, ED, Nigeria"
       />
     </div>
 
     <div className="pt-8">
       <h4 className="font-medium mb-4">Connect With Me</h4>
       <div className="flex space-x-4 justify-center">
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        <a href="www.linkedin.com/in/daramola-tobi" target="_blank" rel="noopener noreferrer">
           <Linkedin />
         </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <Twitter />
+        <a href="https://x.com/HorebZion/" target="_blank" rel="noopener noreferrer">
+          <FaXTwitter size={24}/>
         </a>
         <a href="#" target="_blank" rel="noopener noreferrer">
           <Instagram />
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <Twitch />
         </a>
       </div>
     </div>
@@ -100,6 +99,17 @@ const ContactInfo = () => (
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""});
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   /**
    * Handle form submission.
    * Displays a toast message after a simulated delay.
@@ -110,14 +120,37 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
-        description:
-          "Thank you for your message. I'll get back to you soon.",
-      });
-      setIsSubmitting(false);
-    }, 1500);
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const userId = import.meta.env.VITE_EMAILJS_USER_ID;
+
+    emailjs
+      .send(serviceId, templateId, formData, userId).then(
+        () => {
+          setTimeout(() => {
+            toast({
+              title: "Message sent!",
+              description:
+                "Thank you for your message. I'll get back to you soon.",
+            });
+            setIsSubmitting(false);
+          }, 1500);
+          setFormData({ name: "", email: "", message: "" }); // reset
+          setIsSubmitting(false);
+        },
+        (error) => {
+          setTimeout(() => {
+            toast({
+              title: "Error",
+              description: "Something went wrong. Please try again.",
+              variant: "destructive",
+            });
+            setIsSubmitting(false);
+          }, 1500);
+          console.error(error);
+          setIsSubmitting(false);
+        }
+      );
   };
 
   return (
@@ -133,9 +166,11 @@ const ContactForm = () => {
             type="text"
             id="name"
             name="name"
+            value={formData.name}
+            onChange={handleChange}
             required
             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-            placeholder="Pedro Machado..."
+            placeholder="Tobi Daramola..."
           />
         </div>
 
@@ -148,9 +183,10 @@ const ContactForm = () => {
             id="email"
             name="email"
             required
+            value={formData.email}
+            onChange={handleChange}
             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-            placeholder="john@gmail.com"
-          />
+            placeholder="john@gmail.com"/>
         </div>
 
         <div>
@@ -160,10 +196,11 @@ const ContactForm = () => {
           <textarea
             id="message"
             name="message"
+            value={formData.message}
+            onChange={handleChange}
             required
             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none"
-            placeholder="Hello, I'd like to talk about..."
-          />
+            placeholder="Hello, I'd like to talk about..."/>
         </div>
 
         <button
@@ -171,8 +208,7 @@ const ContactForm = () => {
           disabled={isSubmitting}
           className={cn(
             "cosmic-button w-full flex items-center justify-center gap-2"
-          )}
-        >
+          )}>
           {isSubmitting ? "Sending..." : "Send Message"}
           <Send size={16} />
         </button>
