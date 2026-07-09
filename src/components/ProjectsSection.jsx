@@ -15,12 +15,12 @@ const BASE_URL = import.meta.env.BASE_URL;
 const projects = [
   {
     id: 1,
-    title: "SaaS Landing Page",
-    description: "A beautiful landing page app using React and Tailwind.",
-    image: "/projects/project1.png",
-    tags: ["OpenCV", "Python", "LTSpice"],
+    title: "Data Structure & Algorithm Visual",
+    description: "A beautifull app to visualize datastructures behaviour and some algorithms",
+    image: "/projects/algoviz.png",
+    tags: ["React", "TypeScript" , "Vite" , "Tailwind CSS" , "Data Structures" , "Graph Algorithms"],
     demoUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/hephzaron/AlgoVis",
   },
   {
     id: 2,
