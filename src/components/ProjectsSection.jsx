@@ -17,7 +17,7 @@ const projects = [
     id: 1,
     title: "Data Structure & Algorithm Visual",
     description: "A beautifull app to visualize datastructures behaviour and some algorithms",
-    image: "/projects/algoviz.png",
+    image: "/projects/algoviz.JPG",
     tags: ["React", "TypeScript" , "Vite" , "Tailwind CSS" , "Data Structures" , "Graph Algorithms"],
     demoUrl: "#",
     githubUrl: "https://github.com/hephzaron/AlgoVis",
