@@ -8,25 +8,20 @@ import { FloatingResetButton } from "./FloatingResetButton";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
-/**
- * Sample Projects Data
- * --------------------
- */
 const projects = [
   {
     id: 1,
     title: "Data Structure & Algorithm Visual",
-    description: "A beautifull app to visualize datastructures behaviour and some algorithms",
+    description: "A beautiful app to visualize data structures and graph algorithms in an interactive way.",
     image: "/projects/algoviz.JPG",
-    tags: ["React", "TypeScript" , "Vite" , "Tailwind CSS" , "Data Structures" , "Graph Algorithms"],
+    tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "Data Structures", "Graph Algorithms"],
     demoUrl: "#",
     githubUrl: "https://github.com/hephzaron/AlgoVis",
   },
   {
     id: 2,
     title: "Orbit Analytics Dashboard",
-    description:
-      "Interactive analytics dashboard with data visualization and filtering capabilities.",
+    description: "Interactive analytics dashboard with rich visualizations and filtering workflows.",
     image: "/projects/project2.png",
     tags: ["C++", "Pandas", "Numpy"],
     demoUrl: "#",
@@ -35,8 +30,7 @@ const projects = [
   {
     id: 3,
     title: "E-commerce Platform",
-    description:
-      "Full-featured e-commerce platform with user authentication and payment processing.",
+    description: "A complete commerce experience featuring user auth, product browsing, and payments.",
     image: "/projects/project3.png",
     tags: ["Vivado", "LTSpice", "TensorFlow Lite"],
     demoUrl: "#",
@@ -44,9 +38,8 @@ const projects = [
   },
   {
     id: 4,
-    title: "E-commerce Platform",
-    description:
-      "Full-featured e-commerce platform with user authentication and payment processing.",
+    title: "Embedded Insight Suite",
+    description: "A polished interface built to explore embedded system data and diagnostics.",
     image: "/projects/project3.png",
     tags: ["Vivado", "Pandas", "TensorFlow Lite"],
     demoUrl: "#",
@@ -55,7 +48,7 @@ const projects = [
   {
     id: 5,
     title: "SaaS Landing Page",
-    description: "A beautiful landing page app using React and Tailwind.",
+    description: "A modern landing experience crafted with React and Tailwind for a high-conversion product story.",
     image: "/projects/project1.png",
     tags: ["OpenCV", "Python", "LTSpice"],
     demoUrl: "#",
@@ -63,119 +56,58 @@ const projects = [
   },
   {
     id: 6,
-    title: "Orbit Analytics Dashboard",
-    description:
-      "Interactive analytics dashboard with data visualization and filtering capabilities.",
+    title: "Signal Exploration Lab",
+    description: "A compact toolkit for examining engineering data and visual patterns in motion.",
     image: "/projects/project2.png",
     tags: ["C++", "Pandas", "Numpy"],
     demoUrl: "#",
     githubUrl: "#",
   },
-  {
-    id: 7,
-    title: "E-commerce Platform",
-    description:
-      "Full-featured e-commerce platform with user authentication and payment processing.",
-    image: "/projects/project3.png",
-    tags: ["Vivado", "LTSpice", "TensorFlow Lite"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 8,
-    title: "E-commerce Platform",
-    description:
-      "Full-featured e-commerce platform with user authentication and payment processing.",
-    image: "/projects/project3.png",
-    tags: ["Vivado", "Pandas", "TensorFlow Lite"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
 ];
 
-/**
- * Utility function to join BASE_URL with relative path
- *
- * @param {string} base - Base URL (e.g., import.meta.env.BASE_URL)
- * @param {string} path - Path to append
- * @returns {string} - Joined valid URL
- */
 function joinBaseUrl(base, path) {
   return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
 }
 
-/**
- * @function ProjectsSection
- * @description Displays a grid of projects, with filtering by skillTag and pagination.
- * Uses Redux for state management and integrates with the skill filter.
- */
 export const ProjectsSection = () => {
   const skillTag = useSelector((state) => state.skill.skillTag);
   const dispatch = useDispatch();
 
-  /**
-   * Filtered projects based on current skillTag
-   */
   const filteredProjects = useMemo(() => {
     if (!skillTag || skillTag === "All") return projects;
     return projects.filter((project) => project.tags.includes(skillTag));
   }, [skillTag]);
 
-  /**
-   * Render a single project card
-   */
   const renderProjectCard = (project) => (
-    <div
-      key={project.id}
-      className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover"
-    >
-      {/* Project image */}
-      <div className="h-48 overflow-hidden">
+    <div key={project.id} className="group glass-panel card-hover overflow-hidden">
+      <div className="relative h-48 overflow-hidden">
         <img
           src={joinBaseUrl(BASE_URL, project.image)}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
       </div>
 
-      {/* Project content */}
-      <div className="p-6">
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
+      <div className="p-6 text-left">
+        <div className="mb-4 flex flex-wrap gap-2">
           {project.tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground"
-            >
+            <span key={idx} className="rounded-full border border-border/80 bg-primary/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
               {tag}
             </span>
           ))}
         </div>
 
-        {/* Title + Description */}
-        <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
-        <p className="text-muted-foreground text-sm mb-4">
-          {project.description}
-        </p>
+        <h3 className="mb-2 text-xl font-semibold">{project.title}</h3>
+        <p className="mb-5 text-sm leading-relaxed text-foreground/70">{project.description}</p>
 
-        {/* External Links */}
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="flex space-x-3">
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
-            >
-              <ExternalLink size={20} />
+            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="rounded-full bg-card/80 p-2 text-foreground/80 transition-colors duration-300 hover:text-primary">
+              <ExternalLink size={18} />
             </a>
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
-            >
-              <Github size={20} />
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="rounded-full bg-card/80 p-2 text-foreground/80 transition-colors duration-300 hover:text-primary">
+              <Github size={18} />
             </a>
           </div>
         </div>
@@ -183,9 +115,6 @@ export const ProjectsSection = () => {
     </div>
   );
 
-  /**
-   * Render empty state when no projects match
-   */
   const renderEmptyState = () => (
     <motion.div
       key="empty"
@@ -193,41 +122,23 @@ export const ProjectsSection = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="col-span-full flex flex-col items-center justify-center h-64 border-2 border-dashed border-border rounded-lg bg-gradient-to-br from-secondary/20 via-background to-primary/20"
+      className="col-span-full flex h-64 flex-col items-center justify-center rounded-[1.5rem] border border-dashed border-border bg-gradient-to-br from-primary/10 via-background to-emerald-400/10"
     >
-      <PackageOpen className="w-12 h-12 text-primary mb-4 animate-bounce" />
-      <p className="text-lg font-medium text-muted-foreground">
-        No projects match this skill.
-      </p>
-      <p className="text-sm text-muted-foreground/70 mb-4">
-        Try selecting another skill to explore more.
-      </p>
+      <PackageOpen className="mb-4 h-12 w-12 text-primary animate-bounce" />
+      <p className="text-lg font-medium text-foreground/80">No projects match this skill.</p>
+      <p className="mb-4 text-sm text-foreground/60">Try selecting another skill to explore more.</p>
 
-      {/* Action buttons */}
       <div className="flex gap-4">
-        <button
-          onClick={() =>
-            document
-              .getElementById("skills")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="cosmic-button flex items-center gap-2"
-        >
+        <button onClick={() => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" })} className="cosmic-button">
           Back to Skills
         </button>
-        <button
-          onClick={() => dispatch(resetSkill())}
-          className="cosmic-button flex items-center gap-2"
-        >
+        <button onClick={() => dispatch(resetSkill())} className="rounded-full border border-primary/30 px-6 py-2.5 font-medium text-primary transition-colors duration-300 hover:bg-primary/10">
           Reset Filter
         </button>
       </div>
     </motion.div>
   );
 
-  /**
-   * Render the projects grid (paginated or empty state)
-   */
   const renderProjectsGrid = () =>
     filteredProjects.length === 0 ? (
       renderEmptyState()
@@ -236,7 +147,7 @@ export const ProjectsSection = () => {
         items={filteredProjects}
         itemsPerPage={6}
         renderPage={(pageItems) => (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {pageItems.map((project) => renderProjectCard(project))}
           </div>
         )}
@@ -244,35 +155,27 @@ export const ProjectsSection = () => {
     );
 
   return (
-    <section id="projects" className="py-24 px-4 relative">
+    <section id="projects" className="relative px-4 py-24">
       <div className="container mx-auto max-w-5xl">
-        {/* Section Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          Featured <span className="text-primary"> Projects </span>
-        </h2>
+        <div className="mb-8 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-primary">Selected work</p>
+          <h2 className="section-title">
+            Featured <span className="text-gradient">projects</span>
+          </h2>
+        </div>
 
-        {/* Intro paragraph */}
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Browse my projects below. They are automatically filtered based on the
-          selected skill from the Skills section.
+        <p className="mx-auto mb-12 max-w-2xl text-center text-foreground/70">
+          Browse my projects below. They are automatically filtered by the selected skill from the skills section.
         </p>
 
-        {/* Render Grid */}
         {renderProjectsGrid()}
 
-        {/* GitHub button */}
-        <div className="text-center mt-12">
-          <a
-            className="cosmic-button w-fit flex items-center mx-auto gap-2"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/hephzaron"
-          >
+        <div className="mt-12 text-center">
+          <a className="cosmic-button mx-auto w-fit gap-2" target="_blank" rel="noopener noreferrer" href="https://github.com/hephzaron">
             Check My Github <ArrowRight size={16} />
           </a>
         </div>
       </div>
-      {/* Floating reset button (auto-hides if no skill active) */}
       <FloatingResetButton />
     </section>
   );

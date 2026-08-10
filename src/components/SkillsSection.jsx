@@ -5,19 +5,12 @@ import { scrollToSection } from "@/lib/scrollToSection";
 import { cn } from "@/lib/utils";
 import { StarRating } from "./StarRating";
 
-// ================== DATA ==================
-/**
- * Skill dataset containing name, proficiency level, and category.
- * @type {Array<{name: string, level: number, category: string}>}
- */
 const skills = [
-  // Programming Languages
   { name: "Python", level: 90, category: "Programming Languages" },
   { name: "JavaScript", level: 90, category: "Programming Languages" },
   { name: "C++", level: 50, category: "Programming Languages" },
   { name: "Verilog HDL", level: 55, category: "Programming Languages" },
 
-  // Machine Learning Frameworks
   { name: "Scikit-learn", level: 80, category: "Machine Learning Frameworks" },
   { name: "Pandas", level: 75, category: "Machine Learning Frameworks" },
   { name: "Numpy", level: 70, category: "Machine Learning Frameworks" },
@@ -28,7 +21,6 @@ const skills = [
   { name: "TensorFlow Lite", level: 50, category: "Machine Learning Frameworks" },
   { name: "Natural Language Toolkit (NLTK)", level: 50, category: "Machine Learning Frameworks" },
 
-  // Modelling and Tools
   { name: "Proteus", level: 70, category: "Modelling and Tools" },
   { name: "LTSpice", level: 70, category: "Modelling and Tools" },
   { name: "MATLAB", level: 65, category: "Modelling and Tools" },
@@ -36,16 +28,11 @@ const skills = [
   { name: "PSCAD", level: 40, category: "Modelling and Tools" },
   { name: "ETAP", level: 40, category: "Modelling and Tools" },
 
-  // Other Skills
   { name: "Digital Signal Processing (DSP)", level: 68, category: "Other Skills" },
   { name: "Mathematical Optimization Technique", level: 50, category: "Other Skills" },
   { name: "Web application development", level: 50, category: "Other Skills" },
 ];
 
-/**
- * Skill categories used to group skills.
- * @type {Array<string>}
- */
 const categories = [
   "Programming Languages",
   "Machine Learning Frameworks",
@@ -53,20 +40,11 @@ const categories = [
   "Other Skills",
 ];
 
-// ================== COMPONENT ==================
-/**
- * Functional component to render skills section with category filtering,
- * Redux-based skill selection, and project section scrolling.
- */
 export const SkillsSection = () => {
   const [activeCategory, setActiveCategory] = useState("Programming Languages");
   const skillTag = useSelector((state) => state.skill.skillTag);
   const dispatch = useDispatch();
 
-  /**
-   * Handle category button click.
-   * Updates active category and resets selected skill in Redux.
-   */
   const handleCategoryChange = useCallback(
     (category) => {
       setActiveCategory(category);
@@ -75,10 +53,6 @@ export const SkillsSection = () => {
     [dispatch]
   );
 
-  /**
-   * Handle skill card click.
-   * Dispatches toggleSkill to Redux and scrolls to "projects" section.
-   */
   const handleSkillClick = useCallback(
     (skillName) => {
       dispatch(toggleSkill(skillName));
@@ -89,20 +63,17 @@ export const SkillsSection = () => {
     [dispatch, skillTag]
   );
 
-  /**
-   * Renders category filter buttons.
-   */
   const renderCategoryButtons = () => (
-    <div className="flex flex-wrap justify-center gap-4 mb-12">
+    <div className="mb-10 flex flex-wrap justify-center gap-3">
       {categories.map((category, index) => (
         <button
           key={index}
           onClick={() => handleCategoryChange(category)}
           className={cn(
-            "px-5 py-2 rounded-full transition-colors duration-300 capitalize",
+            "rounded-full border px-5 py-2 text-sm font-medium capitalize transition-all duration-300",
             activeCategory === category
-              ? "bg-primary text-primary-foreground"
-              : "bg-secondary/70 text-foreground hover:bd-secondary"
+              ? "border-primary bg-primary text-primary-foreground shadow-sm"
+              : "border-border/80 bg-card/70 text-foreground/80 hover:border-primary/40 hover:text-primary"
           )}
         >
           {category}
@@ -111,27 +82,22 @@ export const SkillsSection = () => {
     </div>
   );
 
-  /**
-   * Renders skill cards for the selected category.
-   */
   const renderSkillsGrid = () => {
-    const filteredSkills = skills.filter(
-      (skill) => skill.category === activeCategory
-    );
+    const filteredSkills = skills.filter((skill) => skill.category === activeCategory);
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredSkills.map((skill, index) => (
           <div
             key={index}
             onClick={() => handleSkillClick(skill.name)}
             className={cn(
-              "bg-card p-6 rounded-lg shadow-xs card-hover cursor-pointer",
-              skillTag === skill.name ? "ring-2 ring-primary" : ""
+              "glass-panel card-hover cursor-pointer p-6 text-left",
+              skillTag === skill.name ? "ring-2 ring-primary/50" : ""
             )}
           >
-            <div className="text-left mb-4">
-              <h3 className="font-semibold text-lg">{skill.name}</h3>
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">{skill.name}</h3>
             </div>
             <StarRating rating={skill.level / 20} totalStars={5} />
           </div>
@@ -140,13 +106,15 @@ export const SkillsSection = () => {
     );
   };
 
-  // ====== Render ======
   return (
-    <section id="skills" className="py-24 px-4 relative bg-secondary/30">
+    <section id="skills" className="relative px-4 py-24">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-          My <span className="text-primary"> Skills</span>
-        </h2>
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-primary">Technical strengths</p>
+          <h2 className="section-title">
+            My <span className="text-gradient">skills</span> and tools.
+          </h2>
+        </div>
 
         {renderCategoryButtons()}
         {renderSkillsGrid()}

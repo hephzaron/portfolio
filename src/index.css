@@ -7,7 +7,8 @@
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-card: hsl(var(--card));
 
   --animate-float: float 6s ease-in-out infinite;
@@ -54,25 +55,33 @@
 
 @layer base {
   :root {
-    --background: 170 45% 97%;        /* pale mint background */
-    --foreground: 190 50% 15%;        /* deep teal text */
-    --card: 0 0% 100%;                /* white cards */
-
-    --primary: 200 70% 55%;           /* cyan primary */
-    --primary-foreground: 170 45% 97%;/* light text on cyan */
-
-    --border: 180 25% 80%;            /* soft aqua border */
+    --background: 170 45% 97%;
+    --foreground: 190 50% 15%;
+    --card: 0 0% 100%;
+    --primary: 200 70% 55%;
+    --primary-foreground: 170 45% 97%;
+    --secondary: 180 28% 94%;
+    --secondary-foreground: 190 45% 18%;
+    --muted: 180 22% 90%;
+    --muted-foreground: 190 25% 42%;
+    --border: 180 25% 80%;
+    --input: 180 24% 82%;
+    --ring: 200 70% 55%;
   }
 
   .dark {
-    --background: 190 50% 7%;         /* deep teal background */
-    --foreground: 170 30% 92%;        /* pale mint foreground */
-    --card: 190 40% 12%;              /* muted teal card */
-
-    --primary: 160 55% 45%;           /* emerald green primary */
-    --primary-foreground: 170 30% 92%;/* light text on emerald */
-
-    --border: 185 20% 25%;            /* dark aqua border */
+    --background: 190 50% 7%;
+    --foreground: 170 30% 92%;
+    --card: 190 40% 12%;
+    --primary: 160 55% 45%;
+    --primary-foreground: 170 30% 92%;
+    --secondary: 190 30% 15%;
+    --secondary-foreground: 170 30% 92%;
+    --muted: 190 28% 14%;
+    --muted-foreground: 185 18% 68%;
+    --border: 185 20% 25%;
+    --input: 185 20% 26%;
+    --ring: 160 55% 45%;
   }
 
   * { @apply border-border; }
@@ -82,6 +91,8 @@
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: radial-gradient(circle at top left, hsl(var(--primary) / 0.14), transparent 28%), radial-gradient(circle at bottom right, hsl(var(--primary) / 0.1), transparent 32%);
+    background-attachment: fixed;
   }
 }
 
@@ -97,28 +108,42 @@
 
 @utility text-glow {
   @apply relative;
-  text-shadow: 0 0 10px rgba(0, 206, 209, 0.6); /* aqua glow */
+  text-shadow: 0 0 10px rgba(0, 206, 209, 0.6);
 }
 
 @utility star-glow {
-  filter: drop-shadow(0 0 6px rgba(46, 139, 87, 0.8)); /* sea-green glow */
+  filter: drop-shadow(0 0 6px rgba(46, 139, 87, 0.8));
 }
 
 @utility card-hover {
-  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(15,23,42,0.25)];
 }
 
 @utility gradient-border {
-  @apply relative rounded-md;
+  @apply relative rounded-[1.25rem];
   background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
   background-clip: padding-box;
   border: 1px solid transparent;
 }
 
+@utility section-shell {
+  @apply rounded-[2rem] border border-border/80 bg-card/70 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl;
+}
+
+@utility glass-panel {
+  @apply rounded-[1.5rem] border border-white/50 bg-white/70 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl dark:border-white/10 dark:bg-card/80;
+}
+
+@utility text-gradient {
+  @apply bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text text-transparent;
+}
+
+@utility section-title {
+  @apply text-3xl md:text-4xl font-semibold tracking-tight;
+}
+
 @utility cosmic-button {
-  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
-         transition-all duration-300 hover:shadow-[0_0_10px_rgba(64,224,208,0.6)]
-         hover:scale-105 active:scale-95;
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-12px_rgba(14,165,233,0.7)] active:scale-95;
 }
 
 @utility star {
@@ -132,7 +157,7 @@
 }
 
 #root {
-  max-width: 100%;
+  min-height: 100%;
   margin: 0 auto;
   padding: 0;
   text-align: center;
